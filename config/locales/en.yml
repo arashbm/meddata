@@ -2,4 +2,11 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  helpers:
+    links:
+      confirm: 'Are you sure? This action cannot be undone...'
+      edit_html: '<i class="icon-edit"></i> Edit'
+      destroy_html: '<i class="icon-trash"></i> Destroy'
+      new_html: '<i class="icon-plus"></i> New'
+
   hello: "Hello world"
