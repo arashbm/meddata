@@ -66,6 +66,7 @@ class ArticleReaderWorker
           a = Article.find_or_initialize_by_pubmed_id(pmid)
           a.raw_pubmed_xml = article.to_s
           a.save
+          a.extract_pubmed_data!
         else
           puts 'Ignoring article without ID... What the hell?'
         end
