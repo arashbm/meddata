@@ -37,5 +37,7 @@ gem 'thin'
 # Deploy with Capistrano
 gem 'capistrano'
 
+gem 'will_paginate'
+
 # To use debugger
 # gem 'debugger'

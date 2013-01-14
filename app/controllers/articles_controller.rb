@@ -1,6 +1,7 @@
 class ArticlesController < ApplicationController
+  respond_to :html, :json, :js
   def index
-    @articles = Article.all
+    @articles = Article.order('created_at DESC').page(params[:page]).per_page(20)
     respond_with(@articles)
   end
 

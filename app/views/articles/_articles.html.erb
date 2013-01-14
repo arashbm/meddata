@@ -1,0 +1,16 @@
+<% articles.each do |article| %>
+  <tr>
+    <td><%= link_to article.id, article_path(article) %></td>
+    <td><%= article.pubmed_id %></td>
+    <td><%= article.title %></td>
+    <td><%= article.abstract %></td>
+    <td><%= l article.created_at, format: :long %></td>
+    <td>
+      <%= link_to t("helpers.links.edit_html"), edit_article_path(article),
+        :class => 'btn btn-mini' %>
+      <%= link_to t("helpers.links.destroy_html"), article_path(article),
+        method: :delete, confirm: t("helpers.links.confirm"),
+        class: 'btn btn-mini btn-danger' %>
+    </td>
+  </tr>
+<% end %>
