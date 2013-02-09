@@ -41,5 +41,18 @@ class Article < ActiveRecord::Base
       self.keywords << Keyword.find_or_create_by_title(t)
     end
 
+  def text
+    title.to_s+"\n"+abstract.to_s
+  end
+
+  # Uses a list for keywords
+  def extract_keywords_from_list(index_list)
+    index_list.each do |kw|
+      # TODO use a better way for search rather than scan.
+      if (text.scan(kw).size > 0)
+        key = Keyword.find_or_create_by_title(kw)
+        self.keywords << key
+      end
+    end
   end
 end
