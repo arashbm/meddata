@@ -39,5 +39,7 @@ gem 'capistrano'
 
 gem 'will_paginate'
 
+gem 'treat'
+gem 'scalpel'
 # To use debugger
 # gem 'debugger'
