@@ -23,6 +23,13 @@ gem 'twitter-bootstrap-rails'
 
 gem 'jquery-rails'
 gem 'sidekiq'
+
+
+# sidekiq web deps
+gem 'slim'
+# if you require 'sinatra' you get the DSL extended to Object
+gem 'sinatra', '>= 1.3.0', :require => nil
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -41,5 +48,5 @@ gem 'will_paginate'
 
 gem 'treat'
 gem 'scalpel'
-# To use debugger
-# gem 'debugger'
+
+gem 'texticle', "~> 2.1.1", require: 'texticle/rails'

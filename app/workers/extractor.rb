@@ -2,13 +2,13 @@ class ArticleExtractorWorker
   include Sidekiq::Worker
 
   def read_list(list_file)
-    File.read(list_file).split
+    File.readlines(list_file).map(&:chomp).uniq
   end
 
-  def perform(ids, list_file)
-    list = read_list list_file
-    ids.each do |i|
-      Article.find(i).extract_keywords_from_list(list)
+  def perform(list_file)
+    list = read_list(list_file)
+    list.each do |term|
+      Article.save_keyword_occurrence(term)
     end
   end
 
