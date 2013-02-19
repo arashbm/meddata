@@ -5,6 +5,14 @@ class Article < ActiveRecord::Base
 
   attr_accessible :abstract, :pubmed_id, :raw_pubmed_xml, :title
   
+
+  def self.save_keyword_occurrence(term)
+    kw = Keyword.find_or_create_by_title(term)
+    basic_search(term).each do |article|
+      article.keywords << kw unless article.keywords.include? kw
+    end
+  end
+
   def extract_pubmed_title
     doc = Nokogiri.XML(raw_pubmed_xml)
     doc.css('PubmedArticle MedlineCitation Article ArticleTitle').first.try(:text)
@@ -40,6 +48,9 @@ class Article < ActiveRecord::Base
 
       self.keywords << Keyword.find_or_create_by_title(t)
     end
+  end
 
+  def text
+    title.to_s+"\n"+abstract.to_s
   end
 end
