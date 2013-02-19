@@ -67,7 +67,7 @@ ALTER SEQUENCE article_keywords_id_seq OWNED BY article_keywords.id;
 CREATE TABLE articles (
     id integer NOT NULL,
     pubmed_id integer,
-    title character varying(255),
+    title text,
     abstract text,
     raw_pubmed_xml text,
     created_at timestamp without time zone NOT NULL,
@@ -183,7 +183,7 @@ ALTER TABLE ONLY keywords
 -- Name: articles_to_tsvector_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX articles_to_tsvector_idx ON articles USING gin (to_tsvector('english'::regconfig, (title)::text));
+CREATE INDEX articles_to_tsvector_idx ON articles USING gin (to_tsvector('english'::regconfig, title));
 
 
 --
@@ -232,3 +232,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130127184658');
 INSERT INTO schema_migrations (version) VALUES ('20130127190024');
 
 INSERT INTO schema_migrations (version) VALUES ('20130215233443');
+
+INSERT INTO schema_migrations (version) VALUES ('20130218075713');
