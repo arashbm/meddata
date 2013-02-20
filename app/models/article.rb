@@ -6,9 +6,10 @@ class Article < ActiveRecord::Base
   attr_accessible :abstract, :pubmed_id, :raw_pubmed_xml, :title
   
 
-  def self.save_keyword_occurrence(term)
+  def self.save_keyword_occurrence(term, ids=nil)
     kw = Keyword.find_or_create_by_title(term)
-    basic_search(term).each do |article|
+    articles = ids ? self.where(id: ids) : self.scoped
+    articles.basic_search(term).each do |article|
       article.keywords << kw unless article.keywords.include? kw
     end
   end

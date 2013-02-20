@@ -45,6 +45,7 @@ class ArticleReaderWorker
   # article data. Then mark the file as imported.
   def perform(name)
     filename = find_free_xml(name)
+    extrct_ids=[]
     unless filename
       puts 'no files left'
       return
@@ -66,6 +67,7 @@ class ArticleReaderWorker
           a = Article.find_or_initialize_by_pubmed_id(pmid)
           a.raw_pubmed_xml = article.to_s
           a.extract_pubmed_data!
+          extrct_ids << a.id
         else
           puts 'Ignoring article without ID... What the hell?'
         end
