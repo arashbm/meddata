@@ -5,7 +5,7 @@ gem 'rails', '3.2.8'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+gem 'pg'
 
 
 # Gems used only for assets and not required
@@ -23,6 +23,13 @@ gem 'twitter-bootstrap-rails'
 
 gem 'jquery-rails'
 gem 'sidekiq'
+
+
+# sidekiq web deps
+gem 'slim'
+# if you require 'sinatra' you get the DSL extended to Object
+gem 'sinatra', '>= 1.3.0', :require => nil
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -39,5 +46,7 @@ gem 'capistrano'
 
 gem 'will_paginate'
 
-# To use debugger
-# gem 'debugger'
+gem 'treat'
+gem 'scalpel'
+
+gem 'texticle', "~> 2.1.1", require: 'texticle/rails'
