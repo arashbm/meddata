@@ -215,6 +215,13 @@ CREATE INDEX index_article_keywords_on_keyword_id ON article_keywords USING btre
 
 
 --
+-- Name: index_articles_on_pubmed_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_articles_on_pubmed_id ON articles USING btree (pubmed_id);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -234,3 +241,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130127190024');
 INSERT INTO schema_migrations (version) VALUES ('20130215233443');
 
 INSERT INTO schema_migrations (version) VALUES ('20130218075713');
+
+INSERT INTO schema_migrations (version) VALUES ('20130221055919');

@@ -23,12 +23,19 @@ class Article < ActiveRecord::Base
   end
 
   def extract_pubmed_data!
+    extract_pubmed_data.save!
+  end
+  def extract_pubmed_data_from_node!(node)
+    extract_pubmed_data_from_node(node).save!
+  end
+  def extract_pubmed_data
     doc = Nokogiri.XML(raw_pubmed_xml)
-    extract_pubmed_data_from_node!(doc)
+    extract_pubmed_data_from_node(doc)
   end
 
-  def extract_pubmed_data_from_node!(node)
-    update_attributes title: extract_pubmed_title(node), abstract: extract_pubmed_abstract(node)
+  def extract_pubmed_data_from_node(node)
+    title = extract_pubmed_title(node)
+    abstract = extract_pubmed_abstract(node)
   end
   # Extract *all* words and remove some insignificant ones.
   def extract_keywords!
