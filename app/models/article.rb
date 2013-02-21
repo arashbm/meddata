@@ -14,20 +14,22 @@ class Article < ActiveRecord::Base
     end
   end
 
-  def extract_pubmed_title
-    doc = Nokogiri.XML(raw_pubmed_xml)
-    doc.css('PubmedArticle MedlineCitation Article ArticleTitle').first.try(:text)
+  def extract_pubmed_title(node)
+    node.css('PubmedArticle MedlineCitation Article ArticleTitle').first.try(:text)
   end
 
-  def extract_pubmed_abstract
-    doc = Nokogiri.XML(raw_pubmed_xml)
-    doc.css('PubmedArticle MedlineCitation Article Abstract AbstractText').first.try(:text)
+  def extract_pubmed_abstract(node)
+    node.css('PubmedArticle MedlineCitation Article Abstract AbstractText').first.try(:text)
   end
 
   def extract_pubmed_data!
-    update_attributes title: extract_pubmed_title, abstract: extract_pubmed_abstract
+    doc = Nokogiri.XML(raw_pubmed_xml)
+    extract_pubmed_data_from_node!(doc)
   end
 
+  def extract_pubmed_data_from_node!(node)
+    update_attributes title: extract_pubmed_title(node), abstract: extract_pubmed_abstract(node)
+  end
   # Extract *all* words and remove some insignificant ones.
   def extract_keywords!
     # TODO: maybe we should collect things based on their p-o-s tags.

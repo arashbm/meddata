@@ -66,7 +66,7 @@ class ArticleReaderWorker
         if pmid
           a = Article.find_or_initialize_by_pubmed_id(pmid)
           a.raw_pubmed_xml = article.to_s
-          a.extract_pubmed_data!
+          a.extract_pubmed_data_from_node!(article)
           extrct_ids << a.id
         else
           puts 'Ignoring article without ID... What the hell?'
