@@ -45,7 +45,7 @@ class ArticleReaderWorker
   # article data. Then mark the file as imported.
   def perform(name)
     filename = find_free_xml(name)
-    extrct_ids=[]
+    articles_to_import = []
     unless filename
       puts 'no files left'
       return
@@ -66,12 +66,20 @@ class ArticleReaderWorker
         if pmid
           a = Article.find_or_initialize_by_pubmed_id(pmid)
           a.raw_pubmed_xml = article.to_s
-          a.extract_pubmed_data_from_node!(article)
-          extrct_ids << a.id
+          a.extract_pubmed_data_from_node(article)
+          if a.persisted?
+            a.save! if a.changed?
+          else
+            articles_to_import << a
+          end
         else
           puts 'Ignoring article without ID... What the hell?'
         end
       end
+
+      # we are pretty confident about validity of data
+      Article.import articles_to_import, :validate => false if articles_to_import.size > 0
+
       # mark the file as imported
       unmark_dataset(filename, 'errors')
       mark_dataset(filename, 'imported')
