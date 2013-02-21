@@ -8,7 +8,8 @@ class ArticleExtractorWorker
   def perform(list_file, ids = nil)
     list = read_list(list_file)
     list.each do |term|
-      Article.save_keyword_occurrence(term, ids)
+      keyword = Keyword.find_or_create_by_title(term)
+      keyword.save_keyword_occurrence!(ids)
     end
   end
 
