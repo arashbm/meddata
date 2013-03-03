@@ -53,7 +53,8 @@ class ArticleReaderWorker
     with_locked_xml filename do
       puts "Opening file at #{filename}"
       file = File.open filename
-      puts "creating a nokogiri document..."
+      stime = Time.now
+      puts "#{stime} creating a nokogiri document..."
       doc = Nokogiri.XML(file)
       if doc.errors.length > 0
         puts "error reading file #{filename}, marking 'errors'"
@@ -61,6 +62,7 @@ class ArticleReaderWorker
         # mark the file as incomplete
         raise 'bad file'
       end
+
       doc.css('PubmedArticle').each do |article|
         pmid = article.css('MedlineCitation PMID').first.text.to_i
         if pmid
@@ -76,13 +78,15 @@ class ArticleReaderWorker
           puts 'Ignoring article without ID... What the hell?'
         end
       end
-
+      itime = Time.now
+      puts "#{itime - stime} Bulk saving #{articles_to_import.size} items to db"
       # we are pretty confident about validity of data
       Article.import articles_to_import, :validate => false if articles_to_import.size > 0
 
       # mark the file as imported
       unmark_dataset(filename, 'errors')
       mark_dataset(filename, 'imported')
+      puts "#{Time.now - itime} Bulk saved."
     end
   end
 end

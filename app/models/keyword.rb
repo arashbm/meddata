@@ -16,13 +16,11 @@ class Keyword < ActiveRecord::Base
   end
 
   def neighborhood
-    unless @neighborhood 
-      mu_ids = {}
-      kwds = find(articles.all.map{ |i| i.keyword_ids }.flatten.uniq)
-      kwds.each do |mu|
-        mu_ids[mu.id] = (find(mu).article_ids & article_ids)
-      end
-      @neighborhood = mu_ids.map{ |k,v| v.size}
+    mu_ids = {}
+    kwds = ::Keyword.find(articles.all.map{ |i| i.keyword_ids }.flatten.uniq)
+    kwds.each do |mu|
+      mu_ids[mu.id] = (::Keyword.find(mu).article_ids & article_ids)
     end
+    mu_ids
   end
 end
